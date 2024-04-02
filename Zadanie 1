@@ -1,0 +1,36 @@
+using System;
+
+class BubbleSort
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Wprowadź liczby oddzielone przecinkami:");
+        string input = Console.ReadLine();
+        int[] numbers = Array.ConvertAll(input.Split(','), int.Parse);
+
+        BubbleSortArray(numbers);
+
+        Console.WriteLine("Posortowane liczby:");
+        Console.WriteLine(string.Join(", ", numbers));
+    }
+
+    static void BubbleSortArray(int[] array)
+    {
+        bool swap;
+        do
+        {
+            swap = false;
+            for (int i = 0; i < array.Length - 1; i++)
+            {
+                if (array[i] > array[i + 1])
+                {
+                    // Zamiana miejscami
+                    int temp = array[i];
+                    array[i] = array[i + 1];
+                    array[i + 1] = temp;
+                    swap = true;
+                }
+            }
+        } while (swap);
+    }
+}
