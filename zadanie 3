@@ -1,0 +1,102 @@
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Podaj wymiar macierzy kwadratowych:");
+        int wymiar = int.Parse(Console.ReadLine());
+
+        int[,] macierzA = GenerujMacierz(wymiar);
+        int[,] macierzB = GenerujMacierz(wymiar);
+
+        Console.WriteLine("Macierz A:");
+        WypiszMacierz(macierzA);
+        Console.WriteLine("Macierz B:");
+        WypiszMacierz(macierzB);
+
+        int[,] suma = DodajMacierze(macierzA, macierzB);
+        Console.WriteLine("Suma macierzy A i B:");
+        WypiszMacierz(suma);
+
+        int[,] roznica = OdejmijMacierze(macierzA, macierzB);
+        Console.WriteLine("Różnica macierzy A i B:");
+        WypiszMacierz(roznica);
+
+        int[,] iloczyn = PomnozMacierze(macierzA, macierzB);
+        Console.WriteLine("Iloczyn macierzy A i B:");
+        WypiszMacierz(iloczyn);
+    }
+
+    static int[,] GenerujMacierz(int wymiar)
+    {
+        int[,] macierz = new int[wymiar, wymiar];
+        Random rand = new Random();
+        for (int i = 0; i < wymiar; i++)
+        {
+            for (int j = 0; j < wymiar; j++)
+            {
+                macierz[i, j] = rand.Next(-10, 11);
+            }
+        }
+        return macierz;
+    }
+
+    static void WypiszMacierz(int[,] macierz)
+    {
+        for (int i = 0; i < macierz.GetLength(0); i++)
+        {
+            for (int j = 0; j < macierz.GetLength(1); j++)
+            {
+                Console.Write($"{macierz[i, j],4}");
+            }
+            Console.WriteLine();
+        }
+    }
+
+    static int[,] DodajMacierze(int[,] a, int[,] b)
+    {
+        int wymiar = a.GetLength(0);
+        int[,] wynik = new int[wymiar, wymiar];
+        for (int i = 0; i < wymiar; i++)
+        {
+            for (int j = 0; j < wymiar; j++)
+            {
+                wynik[i, j] = a[i, j] + b[i, j];
+            }
+        }
+        return wynik;
+    }
+
+    static int[,] OdejmijMacierze(int[,] a, int[,] b)
+    {
+        int wymiar = a.GetLength(0);
+        int[,] wynik = new int[wymiar, wymiar];
+        for (int i = 0; i < wymiar; i++)
+        {
+            for (int j = 0; j < wymiar; j++)
+            {
+                wynik[i, j] = a[i, j] - b[i, j];
+            }
+        }
+        return wynik;
+    }
+
+    static int[,] PomnozMacierze(int[,] a, int[,] b)
+    {
+        int wymiar = a.GetLength(0);
+        int[,] wynik = new int[wymiar, wymiar];
+        for (int i = 0; i < wymiar; i++)
+        {
+            for (int j = 0; j < wymiar; j++)
+            {
+                wynik[i, j] = 0;
+                for (int k = 0; k < wymiar; k++)
+                {
+                    wynik[i, j] += a[i, k] * b[k, j];
+                }
+            }
+        }
+        return wynik;
+    }
+}
