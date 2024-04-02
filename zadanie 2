@@ -1,0 +1,63 @@
+using System;
+using System.Collections.Generic;
+
+class StatystycznaAnaliza
+{
+    static void Main(string[] args)
+    {
+        double[] dopuszczalneWartosci = { 2, 3, 3.5, 4, 4.5, 5 };
+        Random rand = new Random();
+
+        Console.WriteLine("Podaj długość tablicy:");
+        int dlugoscTablicy = int.Parse(Console.ReadLine());
+
+        double[] tablicaWartosci = new double[dlugoscTablicy];
+        for (int i = 0; i < dlugoscTablicy; i++)
+        {
+            tablicaWartosci[i] = dopuszczalneWartosci[rand.Next(dopuszczalneWartosci.Length)];
+        }
+
+        double suma = 0;
+        double wartoscMinimalna = double.MaxValue;
+        double wartoscMaksymalna = double.MinValue;
+        Dictionary<double, int> czestotliwoscWystepowania = new Dictionary<double, int>();
+
+        foreach (double wartosc in dopuszczalneWartosci)
+        {
+            czestotliwoscWystepowania[wartosc] = 0; 
+        }
+
+        foreach (double wartosc in tablicaWartosci)
+        {
+            suma += wartosc;
+            if (wartosc < wartoscMinimalna) wartoscMinimalna = wartosc;
+            if (wartosc > wartoscMaksymalna) wartoscMaksymalna = wartosc;
+            czestotliwoscWystepowania[wartosc]++;
+        }
+
+        double srednia = suma / dlugoscTablicy;
+        List<double> wartosciWyzszeNizSrednia = new List<double>();
+        List<double> wartosciNizszeNizSrednia = new List<double>();
+        double sumaKwadratowRoznic = 0;
+
+        foreach (double wartosc in tablicaWartosci)
+        {
+            if (wartosc > srednia) wartosciWyzszeNizSrednia.Add(wartosc);
+            if (wartosc < srednia) wartosciNizszeNizSrednia.Add(wartosc);
+            sumaKwadratowRoznic += Math.Pow(wartosc - srednia, 2);
+        }
+
+        double odchylenieStandardowe = Math.Sqrt(sumaKwadratowRoznic / dlugoscTablicy);
+
+        Console.WriteLine($"Średnia: {srednia}");
+        Console.WriteLine($"Minimalna: {wartoscMinimalna}, Maksymalna: {wartoscMaksymalna}");
+        Console.WriteLine("Wartości wyższe niż średnia: " + string.Join(", ", wartosciWyzszeNizSrednia));
+        Console.WriteLine("Wartości niższe niż średnia: " + string.Join(", ", wartosciNizszeNizSrednia));
+        Console.WriteLine("Częstotliwość występowania poszczególnych liczb:");
+        foreach (var kvp in czestotliwoscWystepowania)
+        {
+            Console.WriteLine($"{kvp.Key}: {kvp.Value} razy");
+        }
+        Console.WriteLine($"Odchylenie standardowe: {odchylenieStandardowe}");
+    }
+}
